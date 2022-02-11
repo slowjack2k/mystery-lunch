@@ -1,0 +1,36 @@
+version: "3.9"
+services:
+  adminer:
+    image: adminer
+    restart: "unless-stopped"
+    ports:
+      - 9090:8080
+  db:
+    image: mysql:8
+    restart: "unless-stopped"
+    environment:
+      HISTFILE: /root/histfiles/.bash_history_mysql
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: app
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: appuser
+    volumes:
+      - ../data/mysql:/var/lib/mysql:cached
+      - ../data/histfiles:/root/histfiles:cached
+    ports:
+      - "3307:3306"
+  web:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    command: bash -c "rm -f tmp/pids/server.pid && bundle && yarn install && gem install foreman && foreman  start -f Procfile.dev -m 'web=1,css=1'"
+    environment:
+      HISTFILE: /root/histfiles/.bash_history_rails
+    volumes:
+      - ..:/myapp:cached
+      - /myapp/node_modules
+      - ../data/histfiles:/root/histfiles:cached
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
