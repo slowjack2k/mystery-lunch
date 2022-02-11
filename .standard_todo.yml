@@ -1,0 +1,8 @@
+# Auto generated files with errors to ignore.
+# Remove from this list as you refactor files.
+---
+ignore:
+- config/environments/production.rb:
+  - Style/GlobalStdStream
+- config/puma.rb:
+  - Style/RedundantFetchBlock
