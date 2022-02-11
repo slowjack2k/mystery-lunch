@@ -43,3 +43,7 @@
 
 .env.local
 .env.*.local
+
+# docker data dir
+
+/data
