@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+# start dev env inside docker
+
+SCRIPT_PATH=$(dirname "$0")
+
+cd ${SCRIPT_PATH}/..
+
+rm -f tmp/pids/server.pid
+bundle check || bundle install
+yarn install
+bin/rails db:prepare
+bin/rails log:clear tmp:clear
+bin/dev
