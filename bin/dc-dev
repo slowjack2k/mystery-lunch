@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+if [ ! -x "$(command -v docker)" ]; then
+    echo "Install docker"
+    exit 1
+fi
+
+
+SCRIPT_PATH=$(dirname "$0")
+
+docker compose -f ${SCRIPT_PATH}/../docker/docker-compose.yml "$@"
