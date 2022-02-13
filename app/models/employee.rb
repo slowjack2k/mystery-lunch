@@ -1,10 +1,7 @@
-class Employee
+class Employee < ApplicationRecord
   DEPARTMENTS = %w[operations sales marketing risk management finance HR development data]
-  include ActiveModel::API
 
-  attr_accessor :name, :photo, :department, :id
+  validates_inclusion_of :department, in: DEPARTMENTS
 
-  def persisted?
-    id.present?
-  end
+  attr_accessor :photo
 end

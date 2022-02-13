@@ -4,16 +4,28 @@ class EmployeesController < ApplicationController
   end
 
   def create
-    flash[:notice] = "Employee 'My foobar' created."
-    redirect_to employee_path(current_employee)
+    @employee = Employee.new employee_params
+
+    if @employee.save
+      flash[:notice] = "Employee '#{@employee.name}' created."
+      redirect_to employee_path(current_employee)
+    else
+      flash[:error] = "Employee #{@employee.name}' not created."
+      render :new
+    end
   end
 
   def edit
   end
 
   def update
-    flash[:notice] = "Employee 'My foobar2' updated."
-    redirect_to employee_path(current_employee)
+    if current_employee.update(employee_params)
+      flash[:notice] = "Employee '#{current_employee.name}' updated."
+      redirect_to employee_path(current_employee)
+    else
+      flash[:error] = "Employee #{@employee.name}' not updated."
+      render :edit
+    end
   end
 
   def show
@@ -21,8 +33,14 @@ class EmployeesController < ApplicationController
 
   private
 
+  def employee_params
+    params.require(:employee).permit(:name, :department).tap do |p|
+      p.transform_values! { |v| ActionController::Base.helpers.sanitize v }
+    end
+  end
+
   def current_employee
-    @employee ||= Employee.new name: "My foobar", department: "development", id: 1
+    @employee ||= Employee.find(params[:id])
   end
   helper_method :current_employee
 end
