@@ -13,8 +13,12 @@
         <%= form.label :photo, {class: "form-label"} %>
         <%= form.file_field :photo, { class: "form-control" } %>
       </div>
-
-      <%= form.submit nil, { class: "btn btn-primary" } %>
+      <div class="mb-3">
+        <div class="d-flex align-items-center justify-content-between border-bottom">
+          <%= form.submit nil, { class: "btn btn-primary" } %>
+          <%= link_to 'Cancel', employees_path, class: "btn btn-secondary" %>
+        </div>
+      </div>
     </div>
   </div>
 <% end %>
