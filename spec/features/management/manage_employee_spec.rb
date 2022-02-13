@@ -12,4 +12,11 @@ RSpec.feature "Manage employees" do
 
     expect(page).to have_text "Employee 'My foobar' created."
   end
+
+  scenario "show an employee" do
+    visit employee_path(1)
+
+    expect(page).to have_text "Name:"
+    expect(page).to have_text "My foobar"
+  end
 end

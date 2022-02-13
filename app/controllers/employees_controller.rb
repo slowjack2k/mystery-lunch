@@ -5,9 +5,10 @@ class EmployeesController < ApplicationController
 
   def create
     flash[:notice] = "Employee 'My foobar' created."
-    render :show
+    redirect_to employee_path(1)
   end
 
   def show
+    @employee = Employee.new name: "My foobar", department: "development"
   end
 end
