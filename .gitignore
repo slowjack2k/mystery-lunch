@@ -47,3 +47,6 @@
 # docker data dir
 
 /data
+
+#rspec metadata
+spec/examples.txt
