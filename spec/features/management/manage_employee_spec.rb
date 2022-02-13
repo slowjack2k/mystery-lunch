@@ -2,35 +2,42 @@ require "rails_helper"
 
 RSpec.feature "Manage employees" do
   scenario "create an employee" do
+    employee_attrs = attributes_for(:employee)
+
     visit new_employee_path
 
-    fill_in "Name", with: "My foobar"
-    select "development", from: "Department"
+    fill_in "Name", with: employee_attrs[:name]
+    select employee_attrs[:department], from: "Department"
     attach_file("Photo", Rails.root + "spec/fixtures/user.png")
 
     click_button "Create Employee"
 
-    expect(page).to have_text "Employee 'My foobar' created."
+    expect(page).to have_text "Employee '#{employee_attrs[:name]}' created."
   end
 
   scenario "show an employee" do
-    visit employee_path(1)
+    employee = create(:employee)
 
-    expect(page).to have_text("Name:").and have_text("My foobar")
+    visit employee_path(employee)
+
+    expect(page).to have_text("Name:").and have_text(employee.name)
   end
 
   scenario "edit an employee" do
-    visit edit_employee_path(1)
+    employee = create(:employee)
+    new_employee_attrs = attributes_for(:employee, department: "data")
 
-    expect(page).to have_field("Name", with: "My foobar").and have_select("Department",
-      selected: "development")
+    visit edit_employee_path(employee)
 
-    fill_in "Name", with: "My foobar2"
-    select "data", from: "Department"
+    expect(page).to have_field("Name", with: employee.name).and have_select("Department",
+      selected: employee.department)
+
+    fill_in "Name", with: new_employee_attrs[:name]
+    select new_employee_attrs[:department], from: "Department"
     attach_file("Photo", Rails.root + "spec/fixtures/user.png")
 
     click_button "Update Employee"
 
-    expect(page).to have_text "Employee 'My foobar2' updated."
+    expect(page).to have_text "Employee '#{new_employee_attrs[:name]}' updated."
   end
 end
