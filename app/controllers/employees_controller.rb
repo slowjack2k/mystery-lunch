@@ -5,7 +5,15 @@ class EmployeesController < ApplicationController
 
   def create
     flash[:notice] = "Employee 'My foobar' created."
-    redirect_to employee_path(1)
+    redirect_to employee_path(current_employee)
+  end
+
+  def edit
+  end
+
+  def update
+    flash[:notice] = "Employee 'My foobar2' updated."
+    redirect_to employee_path(current_employee)
   end
 
   def show
