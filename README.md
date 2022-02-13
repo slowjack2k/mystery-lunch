@@ -33,3 +33,19 @@ start app
 > ./bin/dc-dev exec web bash
 ```
 DB-Admin: http://localhost:9090/
+
+
+## OSX & mysql
+
+```
+> gem install mysql2 -- --with-mysql-dir=$(brew --prefix mysql-client)
+```
+
+or
+
+~/.bundle/config
+```yaml
+---
+BUNDLE_BUILD__MYSQL2: "--with-mysql-dir=/usr/local/opt/mysql-client"
+```
+
