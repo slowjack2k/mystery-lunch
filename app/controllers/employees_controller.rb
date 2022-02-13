@@ -4,6 +4,7 @@ class EmployeesController < ApplicationController
   end
 
   def create
+    flash[:notice] = "Employee 'My foobar' created."
     render :show
   end
 
