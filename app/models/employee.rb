@@ -3,6 +3,5 @@ class Employee < ApplicationRecord
 
   validates_inclusion_of :department, in: DEPARTMENTS
 
-
   attr_accessor :photo
 end
