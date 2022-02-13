@@ -1,0 +1,24 @@
+<%= form_with model: current_employee do |form| %>
+  <div class="card">
+    <div class="card-body">
+      <div class="mb-3">
+        <%= form.label :name, {class: "form-label"} %>
+        <%= form.text_field :name, { class: "form-control", placeholder: "Employee name" } %>
+      </div>
+      <div class="mb-3">
+        <%= form.label :department, {class: "form-label"} %>
+        <%= form.select :department, Employee::DEPARTMENTS, { class: "form-select" } %>
+      </div>
+      <div class="mb-3">
+        <%= form.label :photo, {class: "form-label"} %>
+        <%= form.file_field :photo, { class: "form-control" } %>
+      </div>
+      <div class="mb-3">
+        <div class="d-flex align-items-center justify-content-between border-bottom">
+          <%= form.submit nil, { class: "btn btn-primary" } %>
+          <%= link_to 'Cancel', employees_path, class: "btn btn-secondary" %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
