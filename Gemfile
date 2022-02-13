@@ -47,6 +47,9 @@ group :development, :test do
   gem "rspec-rails"
   gem "standardrb"
   gem "dotenv-rails"
+  # for rubymine remote debugging
+  gem 'debase'
+  gem 'ruby-debug-ide'
 end
 
 group :development do

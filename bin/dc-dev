@@ -8,4 +8,4 @@ fi
 
 SCRIPT_PATH=$(dirname "$0")
 
-docker compose -f ${SCRIPT_PATH}/../docker/docker-compose.yml "$@"
+docker compose -f ${SCRIPT_PATH}/../docker/docker-compose.yml -f ${SCRIPT_PATH}/../docker/docker-compose.rubymine.yml "$@"

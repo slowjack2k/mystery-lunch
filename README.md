@@ -32,8 +32,15 @@ start app
 # shell
 > ./bin/dc-dev exec web bash
 ```
-DB-Admin: http://localhost:9090/
 
+For rubymine integration:
+
+https://www.jetbrains.com/help/ruby/using-docker-compose-as-a-remote-interpreter.html#debug_with_docker_compose
+
+By issues with displaying files within the container with `sh`
+based images https://youtrack.jetbrains.com/issue/IDEA-244173
+
+DB-Admin: http://localhost:9090/
 
 ## OSX & mysql
 
