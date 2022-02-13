@@ -8,7 +8,7 @@ RSpec.feature "Manage employees" do
     select "development", from: "Department"
     attach_file("Photo", Rails.root + "spec/fixtures/user.png")
 
-    click_button "Create employee"
+    click_button "Create Employee"
 
     expect(page).to have_text "Employee 'My foobar' created."
   end

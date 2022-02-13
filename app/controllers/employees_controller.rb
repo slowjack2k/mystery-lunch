@@ -9,6 +9,12 @@ class EmployeesController < ApplicationController
   end
 
   def show
-    @employee = Employee.new name: "My foobar", department: "development"
   end
+
+  private
+
+  def current_employee
+    @employee ||= Employee.new name: "My foobar", department: "development", id: 1
+  end
+  helper_method :current_employee
 end
