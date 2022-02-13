@@ -105,8 +105,7 @@ GEM
     factory_bot_rails (6.2.0)
       factory_bot (~> 6.2.0)
       railties (>= 5.0.0)
-    faker (2.19.0)
-      i18n (>= 1.6, < 2)
+    ffaker (2.20.0)
     globalid (1.0.0)
       activesupport (>= 5.0)
     i18n (1.9.1)
@@ -275,7 +274,7 @@ DEPENDENCIES
   debug
   dotenv-rails
   factory_bot_rails
-  faker
+  ffaker
   jsbundling-rails
   mysql2 (~> 0.5)
   puma (~> 5.0)
