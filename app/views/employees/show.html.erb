@@ -18,5 +18,12 @@
         <p class="py-2 ms-2 text-muted"><%= current_employee.photo %></p>
       </div>
     </div>
+
+    <div class="mb-3">
+      <div class="d-flex align-items-center justify-content-between border-bottom">
+        <p class="py-2 fw-bolder"><%=link_to 'Edit', edit_employee_path(current_employee), class: 'btn btn-primary' %></p>
+        <p class="py-2 ms-2 text-muted"><%=link_to 'Back', :back, class: "btn btn-secondary" %></p>
+      </div>
+    </div>
   </div>
 </div>
