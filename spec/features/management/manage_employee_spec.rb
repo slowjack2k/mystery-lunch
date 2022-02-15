@@ -1,9 +1,22 @@
 require "rails_helper"
 
 RSpec.feature "Manage employees" do
+  def username
+    ENV.fetch("BASIC_AUTH_USER")
+  end
+
+  def password
+    ENV.fetch("BASIC_AUTH_PASSWORD")
+  end
+
+  def login(username, password)
+    page.driver.browser.basic_authorize(username, password)
+  end
+
   scenario "create an employee" do
     employee_attrs = attributes_for(:employee)
 
+    login(username, password)
     visit new_employee_path
 
     fill_in "Name", with: employee_attrs[:name]
@@ -18,6 +31,7 @@ RSpec.feature "Manage employees" do
   scenario "show an employee" do
     employee = create(:employee)
 
+    login(username, password)
     visit employee_path(employee)
 
     expect(page).to have_text("Name:").and have_text(employee.name)
@@ -27,6 +41,7 @@ RSpec.feature "Manage employees" do
     employee = create(:employee)
     new_employee_attrs = attributes_for(:employee, department: "data")
 
+    login(username, password)
     visit edit_employee_path(employee)
 
     expect(page).to have_field("Name", with: employee.name).and have_select("Department",
@@ -53,8 +68,30 @@ RSpec.feature "Manage employees" do
       | * | name-5 | development | Show \| Edit |
     EOF
 
+    login(username, password)
     visit employees_path
 
     expect(page).to contain_table(expected_table_md)
+  end
+
+  scenario "an unauthenticated user gets access denied" do
+    login(username, "does not exists")
+
+    visit new_employee_path
+    expect(page).to have_http_status(401)
+
+    employee = create(:employee)
+
+    visit employee_path(employee)
+
+    expect(page).to have_http_status(401)
+
+    visit edit_employee_path(employee)
+
+    expect(page).to have_http_status(401)
+
+    visit employees_path
+
+    expect(page).to have_http_status(401)
   end
 end

@@ -1,4 +1,6 @@
 class EmployeesController < ApplicationController
+  http_basic_authenticate_with name: ENV.fetch("BASIC_AUTH_USER"), password: ENV.fetch("BASIC_AUTH_PASSWORD"), realm: "Mystery lunch"
+
   def index
     @employees = Employee.all
   end
