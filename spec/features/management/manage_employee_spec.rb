@@ -40,4 +40,21 @@ RSpec.feature "Manage employees" do
 
     expect(page).to have_text "Employee '#{new_employee_attrs[:name]}' updated."
   end
+
+  scenario "show all employees" do
+    5.times { |i| create(:employee, name: "name-#{i + 1}", department: "development") }
+
+    expected_table_md = <<~'EOF'
+      | # | Name   | Department  | Actions      |
+      | * | name-1 | development | Show \| Edit |
+      | * | name-2 | development | Show \| Edit |  
+      | * | name-3 | development | Show \| Edit |   
+      | * | name-4 | development | Show \| Edit |   
+      | * | name-5 | development | Show \| Edit |
+    EOF
+
+    visit employees_path
+
+    expect(page).to contain_table(expected_table_md)
+  end
 end
