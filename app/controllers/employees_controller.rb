@@ -13,11 +13,9 @@ class EmployeesController < ApplicationController
     @employee = Employee.new employee_params
 
     if @employee.save
-      flash[:notice] = "Employee '#{@employee.name}' created."
-      redirect_to employee_path(current_employee)
+      redirect_to employee_path(current_employee), flash: {notice: "Employee '#{@employee.name}' created."}
     else
-      flash[:error] = "Employee #{@employee.name}' not created."
-      render :new
+      render :new, flash: {error: "Employee #{@employee.name}' not created."}
     end
   end
 
@@ -26,21 +24,21 @@ class EmployeesController < ApplicationController
 
   def update
     if current_employee.update(employee_params)
-      flash[:notice] = "Employee '#{current_employee.name}' updated."
-      redirect_to employee_path(current_employee)
+      redirect_to employee_path(current_employee), flash: {notice: "Employee '#{current_employee.name}' updated."}
     else
-      flash[:error] = "Employee #{@employee.name}' not updated."
-      render :edit
+      render :edit, flash: {error: "Employee #{@employee.name}' not updated."}
     end
   end
 
   def show
+    # deleted employees can be shown
+    @employee ||= Employee.find(params[:id])
   end
 
   def destroy
     # :see_other http://www.railsstatuscodes.com/see_other.html
     # without specs don't work
-    if current_employee.destroy
+    if current_employee.soft_destroy
       redirect_to employees_path, status: :see_other, flash: {notice: "Employee was deleted"}
     else
       redirect_to employees_path, status: :see_other, flash: {error: "Employee could not be deleted"}
@@ -56,7 +54,8 @@ class EmployeesController < ApplicationController
   end
 
   def current_employee
-    @employee ||= Employee.find(params[:id])
+    @employee ||= Employee.where(deleted_at: nil).find(params[:id])
   end
+
   helper_method :current_employee
 end
