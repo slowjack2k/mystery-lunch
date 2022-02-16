@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.feature "Manage employees" do
+RSpec.feature "Manage employees", type: :system do
   def username
     ENV.fetch("BASIC_AUTH_USER")
   end
