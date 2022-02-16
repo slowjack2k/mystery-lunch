@@ -56,3 +56,7 @@ or
 BUNDLE_BUILD__MYSQL2: "--with-mysql-dir=/usr/local/opt/mysql-client"
 ```
 
+## Decissions
+
+Be verbose within tests in order to get a better documentation.
+Agains let & co, Prevent [mystery guests](https://thoughtbot.com/blog/mystery-guest).
