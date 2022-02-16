@@ -3,6 +3,7 @@ RSpec.configure do |config|
     if example.metadata[:js]
       if ENV["SHOW_BROWSER"] == "true"
         driven_by :selenium_chrome do |option|
+          # within docker chrome runs as root for now
           option.add_argument("no-sandbox")
           option.add_argument("disable-gpu")
         end
@@ -13,6 +14,7 @@ RSpec.configure do |config|
         end
       end
     else
+      # for none js rack is faster and enough
       driven_by(:rack_test)
     end
   end
