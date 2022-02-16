@@ -60,3 +60,7 @@ BUNDLE_BUILD__MYSQL2: "--with-mysql-dir=/usr/local/opt/mysql-client"
 
 Be verbose within tests in order to get a better documentation.
 Agains let & co, Prevent [mystery guests](https://thoughtbot.com/blog/mystery-guest).
+
+
+Moved from features to the "new" system tests in order to have transactional tests during tests within chromium still available.
+
