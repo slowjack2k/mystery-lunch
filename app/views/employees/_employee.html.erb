@@ -1,10 +1,10 @@
-<tr id="employee-<%=employee.id %>" class="employee-record">
+<tr id="employee-<%=employee.id %>" class="employee-record <%= employee.deleted? ? "bg-light bg-gradient" : "" %>">
   <td><%= employee.id %></td>
   <td><%= employee.name %></td>
   <td><%= employee.department %></td>
   <td>
     <%= link_to 'Show', employee %> |
-    <%= link_to 'Edit', edit_employee_path(employee) %> |
-    <%= link_to 'Delete', employee, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }  %>
+    <%= link_to_unless employee.deleted?, 'Edit', edit_employee_path(employee) %> |
+    <%= link_to_unless employee.deleted?, 'Delete', employee, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }  %>
   </td>
 </tr>
