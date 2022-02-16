@@ -12,8 +12,11 @@ RSpec::Matchers.define :contain_table do |expected|
     expected_table.each_with_index do |row, row_num|
       row.each_with_index do |col, col_num|
         next if col == "*"
-        content_matches = col == extracted_table[row_num][col_num]
-        puts "'#{col}' <=> '#{extracted_table[row_num][col_num]}'" unless content_matches
+
+        actual_col = extracted_table[row_num][col_num].delete("\n").gsub(/\s+/, " ").strip
+
+        content_matches = col == actual_col
+        puts "'#{col}' <=> '#{actual_col}'" unless content_matches
         equal &&= content_matches
       end
     end

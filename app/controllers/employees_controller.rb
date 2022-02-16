@@ -37,6 +37,16 @@ class EmployeesController < ApplicationController
   def show
   end
 
+  def destroy
+    # :see_other http://www.railsstatuscodes.com/see_other.html
+    # without specs don't work
+    if current_employee.destroy
+      redirect_to employees_path, status: :see_other, flash: {notice: "Employee was deleted"}
+    else
+      redirect_to employees_path, status: :see_other, flash: {error: "Employee could not be deleted"}
+    end
+  end
+
   private
 
   def employee_params
