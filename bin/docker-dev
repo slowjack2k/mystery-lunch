@@ -7,8 +7,13 @@ SCRIPT_PATH=$(dirname "$0")
 cd ${SCRIPT_PATH}/..
 
 rm -f tmp/pids/server.pid
+echo "Bundle"
 bundle check || bundle install
+echo "Yarn"
 yarn install
+echo "Prepare DB"
 bin/rails db:prepare
+echo "Cleanups"
 bin/rails log:clear tmp:clear
+echo "Start dev env"
 bin/dev

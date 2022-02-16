@@ -2,6 +2,8 @@ version: "3.9"
 
 services:
   web:
+    environment:
+      HOST: 0.0.0.0
     ports:
       # debugger port rubymine
       # for puma in rubymine disable "Debugger" => "Attach to subprocess automaticaly"
