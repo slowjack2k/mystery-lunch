@@ -67,6 +67,12 @@ RSpec.describe "authenticated requests" do
 
       expect(response.status).to eq 401
     end
+
+    it "denies access to delete" do
+      authorized_delete username, "does not exists", employee_path(random_employee)
+
+      expect(response.status).to eq 401
+    end
   end
 
   context "valid credentials" do
@@ -102,6 +108,12 @@ RSpec.describe "authenticated requests" do
       authorized_patch username, password, employee_path(random_employee), {employee: employee_attrs}
 
       expect(response.status).to eq 302
+    end
+
+    it "allows access to delete" do
+      authorized_delete username, password, employee_path(random_employee)
+
+      expect(response.status).to eq 303
     end
   end
 
