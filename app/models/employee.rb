@@ -2,10 +2,11 @@ class Employee < ApplicationRecord
   DEPARTMENTS = %w[operations sales marketing risk management finance HR development data].freeze
 
   has_many :participations, -> { joins(:lunch).order(year: :desc, month: :desc).limit(3) }, class_name: "Participant", foreign_key: :employee_id
+  has_one_attached :photo do |attachable|
+    attachable.variant :thumb, resize_to_limit: [100, 100]
+  end
 
   validates_inclusion_of :department, in: DEPARTMENTS
-
-  attr_accessor :photo
 
   define_model_callbacks :soft_destroy
 

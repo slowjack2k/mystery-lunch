@@ -6,15 +6,39 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 
+require "open-uri"
+
+def image_fetcher
+  URI.parse(FFaker::Avatar.image(nil, "100x100")).open
+end
+
+seed_avatars = ENV["SEED_AVATARS"] == "true"
+
+puts "Seeding employees #{"with avatars" if seed_avatars}"
+
 Employee::DEPARTMENTS.each do |department|
-  10.times do |i|
-    Employee.create! name: "Max Muster-#{i}", department: department
+  puts "Seeding department '#{department}'"
+
+  Employee.transaction do
+    10.times do |i|
+      employee = Employee.create! name: "#{FFaker::Name.first_name} #{FFaker::Name.last_name}",
+        department: department
+
+      if seed_avatars
+        employee.photo.attach({
+          io: image_fetcher,
+          filename: "#{department}_#{i}_avatar.jpg"
+        })
+      end
+    end
   end
 end
 
 previous_year = Time.now.prev_year.year
 
-12.times do |month|
+(1..12).times do |month|
+  puts "Seeding lunch  year: #{previous_year}, month: #{month}"
+
   next if Lunch.where(year: previous_year, month: month).exists?
 
   MysteryPartnerSelectionService.call year: previous_year, month: month

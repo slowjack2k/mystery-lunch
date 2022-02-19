@@ -45,6 +45,7 @@ RSpec.feature "Manage employees", type: :system do
     click_button "Create Employee"
 
     expect(page).to have_text "Employee '#{employee_attrs[:name]}' created."
+    expect(page).to have_selector("img[src$='user.png']")
   end
 
   scenario "show an employee" do
