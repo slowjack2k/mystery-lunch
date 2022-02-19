@@ -7,57 +7,49 @@ RSpec.describe MysteryPartnerSelectionService, type: :model do
     Employee::DEPARTMENTS.each_with_index.each_with_object({}) { |(department, index), res| res[department] = create_list(:employee, cnt_employess[index], department: department) }
   end
 
-  def departments(last_pairings = {})
-    res = Employee::DEPARTMENTS.each_with_object({}) { |department, res| res[department] = [] }
-
-    Employee.all.each_with_object(res) do |employee, res|
-      res[employee.department].push employee
-      last_partners = (last_pairings[employee.id] || []).map { |id| Employee.find id }
-
-      next unless last_partners.present?
-
-      employee.add_partners(*last_partners)
-    end
-  end
-
   it "pairs all employees" do
-    pairs = MysteryPartnerSelectionService.call employees_by_department: create_departments
+    create_departments
+
+    pairs = MysteryPartnerSelectionService.call year: 1, month: 1
     cnt_employees_paired = pairs.map { |pair| pair.map(&:id) }.flatten.uniq.count
 
     expect(cnt_employees_paired).to eq 27
   end
 
   it "does not pair employees of the same department" do
-    pairs = MysteryPartnerSelectionService.call employees_by_department: create_departments
+    create_departments
+
+    pairs = MysteryPartnerSelectionService.call year: 1, month: 1
     all_departments_uniq = pairs.map { |pair| pair.map(&:department) }.all? { |pair_departments| pair_departments.size == pair_departments.uniq.size }
 
     expect(all_departments_uniq).to be_truthy
   end
 
   it "creates a pairing with 3 employees, when the employee cnt is odd" do
-    pairs = MysteryPartnerSelectionService.call employees_by_department: create_departments
+    create_departments
+
+    pairs = MysteryPartnerSelectionService.call year: 1, month: 1
     count_pairs_with_more_than_two_members = pairs.count { |pair| pair.size > 2 }
 
     expect(count_pairs_with_more_than_two_members).to eq 1
   end
 
   it "creates a only pairings with 2 employees, when the employee cnt is even" do
-    mapping = create_departments
-    mapping.values.first.pop
+    create_departments
 
-    pairs = MysteryPartnerSelectionService.call employees_by_department: mapping
+    Employee.first.destroy!
+
+    pairs = MysteryPartnerSelectionService.call year: 1, month: 1
     count_pairs_without_two_members = pairs.count { |pair| pair.size != 2 }
 
     expect(count_pairs_without_two_members).to eq 0
   end
 
   it "works with departments larger than 50% of all employees" do
-    mapping = {
-      "operations" => create_list(:employee, 3, department: "operations"),
-      "sales" => create_list(:employee, 2, department: "sales")
-    }
+    create_list(:employee, 3, department: "operations")
+    create_list(:employee, 2, department: "sales")
 
-    pairs = MysteryPartnerSelectionService.call employees_by_department: mapping
+    pairs = MysteryPartnerSelectionService.call year: 1, month: 1
     cnt_employees_paired = pairs.map { |pair| pair.map(&:id) }.flatten.uniq.count
 
     expect(cnt_employees_paired).to eq 5
@@ -67,9 +59,8 @@ RSpec.describe MysteryPartnerSelectionService, type: :model do
     last_pairings = {}
     create_departments
 
-    3.times do
-      pairs = MysteryPartnerSelectionService.call employees_by_department: departments(last_pairings)
-
+    3.times do |month|
+      pairs = MysteryPartnerSelectionService.call year: 1, month: month
       pairs.each do |pair|
         ids = pair.map(&:id)
 
@@ -80,7 +71,7 @@ RSpec.describe MysteryPartnerSelectionService, type: :model do
       end
     end
 
-    pairs = MysteryPartnerSelectionService.call employees_by_department: departments(last_pairings)
+    pairs = MysteryPartnerSelectionService.call year: 2, month: 1
 
     old_pairing_exists = pairs.any? { |pair| pair.any? { |employee| employee.id.in? last_pairings.fetch(employee.id, []) } }
 

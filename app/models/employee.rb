@@ -1,6 +1,8 @@
 class Employee < ApplicationRecord
   DEPARTMENTS = %w[operations sales marketing risk management finance HR development data].freeze
 
+  has_many :participations, -> { joins(:lunch).order(year: :desc, month: :desc).limit(3) }, class_name: "Participant", foreign_key: :employee_id
+
   validates_inclusion_of :department, in: DEPARTMENTS
 
   attr_accessor :photo
@@ -20,10 +22,8 @@ class Employee < ApplicationRecord
   end
 
   def previous_partners
-    @previous_partners ||= []
-  end
-
-  def add_partners(*new_partner)
-    previous_partners.push(*new_partner)
+    @previous_partners ||= participations.map do |participantion|
+      Participant.includes(:employee).where(lunch_group: participantion.lunch_group, lunch: participantion.lunch).where.not(employee: self).map(&:employee)
+    end.flatten
   end
 end
