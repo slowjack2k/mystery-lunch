@@ -1,5 +1,5 @@
 class Employee < ApplicationRecord
-  DEPARTMENTS = %w[operations sales marketing risk management finance HR development data]
+  DEPARTMENTS = %w[operations sales marketing risk management finance HR development data].freeze
 
   validates_inclusion_of :department, in: DEPARTMENTS
 
@@ -17,5 +17,13 @@ class Employee < ApplicationRecord
 
   def deleted?
     deleted_at.present?
+  end
+
+  def previous_partners
+    @previous_partners ||= []
+  end
+
+  def add_partners(*new_partner)
+    previous_partners.push(*new_partner)
   end
 end

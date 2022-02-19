@@ -65,4 +65,9 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
+  #
+
+  config.define_derived_metadata(file_path: Regexp.new("/spec/services/")) do |metadata|
+    metadata[:type] = :model
+  end
 end
