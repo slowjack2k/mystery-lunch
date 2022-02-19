@@ -1,9 +1,12 @@
 class Departments
   class IllegalCombinationError < StandardError; end
 
+  attr_reader :cnt_employees
+
   def initialize(departments:)
     @departments = departments
     @department_names = departments.keys
+    @cnt_employees = departments.values.sum { |department| department.size }
   end
 
   def pairings

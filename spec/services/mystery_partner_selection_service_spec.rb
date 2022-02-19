@@ -45,4 +45,14 @@ RSpec.describe MysteryPartnerSelectionService, type: :model do
       MysteryPartnerSelectionService.call year: 1, month: 1
     end.to change { Participant.count }.by 27
   end
+
+  it "ignores soft deleted employees" do
+    create_departments
+
+    Employee.first.soft_destroy
+
+    expect do
+      MysteryPartnerSelectionService.call year: 1, month: 1
+    end.to change { Participant.count }.by 26
+  end
 end

@@ -9,6 +9,16 @@ class Employee < ApplicationRecord
 
   define_model_callbacks :soft_destroy
 
+  def self.employees_by_department
+    res = Employee::DEPARTMENTS.each_with_object({}) { |department, res| res[department] = [] }
+
+    Employee.includes(:participations).where(deleted_at: nil).all.each_with_object(res) do |employee, res|
+      res[employee.department].push employee
+    end.each_with_object({}) do |(department, employees), result_hash|
+      result_hash[department] = Department.new employees: employees
+    end
+  end
+
   def soft_destroy
     return unless deleted_at.blank?
 

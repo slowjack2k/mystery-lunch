@@ -11,10 +11,7 @@ class MysteryPartnerSelectionService
   def call
     instrument "pair_employees" do
       with_retries(5, Departments::IllegalCombinationError) do
-        departments = employees_by_department.each_with_object({}) do |(department, employees), result_hash|
-          result_hash[department] = Department.new employees: employees
-        end
-        Departments.new(departments: departments).pairings
+        departments.pairings
       end.tap do |pairings|
         store_pairings pairings
       end
@@ -23,16 +20,8 @@ class MysteryPartnerSelectionService
 
   private
 
-  def employees_by_department
-    @employees_by_department ||= prepare_dataset
-  end
-
-  def prepare_dataset
-    res = Employee::DEPARTMENTS.each_with_object({}) { |department, res| res[department] = [] }
-
-    Employee.includes(:participations).all.each_with_object(res) do |employee, res|
-      res[employee.department].push employee
-    end
+  def departments
+    @departments ||= Departments.new(departments: Employee.employees_by_department)
   end
 
   def store_pairings(pairings)
@@ -80,7 +69,7 @@ class MysteryPartnerSelectionService
 
   def instrument(event, &block)
     ActiveSupport::Notifications.instrument "#{event}.service" do |payload|
-      payload[:count] = employees_by_department.values.sum { |ids| ids.size }
+      payload[:count] = departments.cnt_employees
 
       result = nil
 

@@ -55,4 +55,10 @@ RSpec.describe Departments do
 
     expect(cnt_employees_paired).to eq 17
   end
+
+  it "returns the number of all employees" do
+    departments = Departments.new departments: create_departments
+
+    expect(departments.cnt_employees).to eq 27
+  end
 end
