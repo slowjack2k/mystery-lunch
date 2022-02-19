@@ -1,12 +1,11 @@
 class Department
-  def initialize(employees:)
-    @employees = employees
+  def initialize(employees:, shuffle_strategy: ->(array) { array.shuffle })
+    @employees = shuffle_strategy.call(employees)
   end
 
   def next_random_employee(previous_partners, employees_without_partners)
     return unless has_next_employee?(previous_partners)
 
-    employees.shuffle!
     employees.delete(next_employee(employees_without_partners, previous_partners))
   end
 
@@ -16,8 +15,7 @@ class Department
 
   def is_critical?(employees_without_partners)
     other_pairing_partners = employees_without_partners - employees
-    max_pairing_members = employees.map { |employee| employee.previous_partners.size }.max
-    left_employess_cnt_gets_near_half(max_pairing_members, other_pairing_partners) ||
+    left_employess_cnt_gets_near_half(other_pairing_partners) ||
       low_on_possible_partners_for_an_employee(other_pairing_partners)
   end
 
@@ -40,15 +38,15 @@ class Department
   private
 
   def low_on_possible_partners_for_an_employee(other_pairing_partners)
-    employees.any? { |employee| (other_pairing_partners - employee.previous_partners).size < 3 }
+    employees.any? { |employee| (other_pairing_partners - employee.previous_partners).size < 4 }
   end
 
-  def left_employess_cnt_gets_near_half(max_pairing_members, other_pairing_partners)
-    size + max_pairing_members + 1 > other_pairing_partners.size
+  def left_employess_cnt_gets_near_half(other_pairing_partners)
+    size + 1 > other_pairing_partners.size
   end
 
   def next_employee(employees_without_partners, previous_partners)
     possible_partners = (employees - previous_partners)
-    possible_partners.find { |employee| (employees_without_partners - employee.previous_partners).size < 2 } || possible_partners.first
+    possible_partners.find { |employee| (employees_without_partners - employee.previous_partners).size < 4 } || possible_partners.first
   end
 end
