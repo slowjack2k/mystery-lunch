@@ -64,3 +64,10 @@ Agains let & co, Prevent [mystery guests](https://thoughtbot.com/blog/mystery-gu
 
 Moved from features to the "new" system tests in order to have transactional tests during tests within chromium still available.
 
+array shuffle, ruby uses Fisher-Yates shuffle so it's a good thing
+
+
+
+good [old crontab](https://github.com/javan/whenever) is good enough to create new lunches
+
+`bundle exec whenever --update-crontab --set environment='<RAILS_ENV>'`

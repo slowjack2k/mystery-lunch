@@ -11,3 +11,11 @@ Employee::DEPARTMENTS.each do |department|
     Employee.create! name: "Max Muster-#{i}", department: department
   end
 end
+
+previous_year = Time.now.prev_year.year
+
+12.times do |month|
+  next if Lunch.where(year: previous_year, month: month).exists?
+
+  MysteryPartnerSelectionService.call year: previous_year, month: month
+end

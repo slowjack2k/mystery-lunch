@@ -1,11 +1,23 @@
 class Employee < ApplicationRecord
-  DEPARTMENTS = %w[operations sales marketing risk management finance HR development data]
+  DEPARTMENTS = %w[operations sales marketing risk management finance HR development data].freeze
+
+  has_many :participations, -> { joins(:lunch).order(year: :desc, month: :desc).limit(3) }, class_name: "Participant", foreign_key: :employee_id
 
   validates_inclusion_of :department, in: DEPARTMENTS
 
   attr_accessor :photo
 
   define_model_callbacks :soft_destroy
+
+  def self.employees_by_department
+    res = Employee::DEPARTMENTS.each_with_object({}) { |department, res| res[department] = [] }
+
+    Employee.includes(:participations).where(deleted_at: nil).all.each_with_object(res) do |employee, res|
+      res[employee.department].push employee
+    end.each_with_object({}) do |(department, employees), result_hash|
+      result_hash[department] = Department.new employees: employees
+    end
+  end
 
   def soft_destroy
     return unless deleted_at.blank?
@@ -17,5 +29,11 @@ class Employee < ApplicationRecord
 
   def deleted?
     deleted_at.present?
+  end
+
+  def previous_partners
+    @previous_partners ||= participations.map do |participantion|
+      Participant.includes(:employee).where(lunch_group: participantion.lunch_group, lunch: participantion.lunch).where.not(employee: self).map(&:employee)
+    end.flatten
   end
 end
