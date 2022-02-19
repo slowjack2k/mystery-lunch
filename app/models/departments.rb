@@ -1,4 +1,4 @@
-class DepartmentsContainer
+class Departments
   class IllegalCombinationError < StandardError; end
 
   def initialize(departments:)

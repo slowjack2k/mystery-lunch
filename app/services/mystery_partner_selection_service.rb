@@ -10,11 +10,11 @@ class MysteryPartnerSelectionService
 
   def call
     instrument "pair_employees" do
-      with_retries(5, DepartmentsContainer::IllegalCombinationError) do
+      with_retries(5, Departments::IllegalCombinationError) do
         departments = employees_by_department.each_with_object({}) do |(department, employees), result_hash|
           result_hash[department] = Department.new employees: employees
         end
-        DepartmentsContainer.new(departments: departments).pairings
+        Departments.new(departments: departments).pairings
       end.tap do |pairings|
         store_pairings pairings
       end
