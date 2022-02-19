@@ -48,8 +48,10 @@ class EmployeesController < ApplicationController
   private
 
   def employee_params
-    params.require(:employee).permit(:name, :department).tap do |p|
-      p.transform_values! { |v| ActionController::Base.helpers.sanitize v }
+    params.require(:employee).permit(:name, :department, :photo).tap do |p|
+      p.keys.map(&:to_sym).excluding(:photo).each do |key|
+        p[key] = ActionController::Base.helpers.sanitize p[key]
+      end
     end
   end
 
