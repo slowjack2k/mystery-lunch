@@ -4,6 +4,8 @@ ARG RUBY_VERSION=3.1.0-jemalloc
 FROM quay.io/evl.ms/fullstaq-ruby:2.7.5-jemalloc-bullseye-slim
 
 RUN apt-get update -qq && apt-get install -y nodejs npm default-mysql-client default-libmysqlclient-dev libsqlite3-dev build-essential libxml2 libxml2-dev zlib1g-dev libxslt-dev git procps wget
+#  libvips slightly better security as imagemagic
+RUN apt-get update -qq && apt-get install -y libvips
 
 # can't use apt-get install chromium for now https://bugs.chromium.org/p/chromium/issues/detail?id=1228625
 RUN wget --no-verbose -O /tmp/chrome.deb http://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_93.0.4577.82-1_amd64.deb && apt install -y /tmp/chrome.deb

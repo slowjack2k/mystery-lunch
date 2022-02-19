@@ -30,5 +30,8 @@ module MysteryLunch
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+    #
+    # Use Vips for processing variants. slightly better security than imagemagic
+    config.active_storage.variant_processor = :vips
   end
 end
