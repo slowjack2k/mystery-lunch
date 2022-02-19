@@ -12,6 +12,13 @@ def image_fetcher
   URI.parse(FFaker::Avatar.image(nil, "100x100")).open
 end
 
+def create_lunch(year, month)
+  puts "Seeding lunch  year: #{year}, month: #{month}"
+  return if Lunch.where(year: year, month: month).exists?
+
+  MysteryPartnerSelectionService.call year: year, month: month
+end
+
 seed_avatars = ENV["SEED_AVATARS"] == "true"
 
 puts "Seeding employees #{"with avatars" if seed_avatars}"
@@ -36,10 +43,8 @@ end
 
 previous_year = Time.now.prev_year.year
 
-(1..12).times do |month|
-  puts "Seeding lunch  year: #{previous_year}, month: #{month}"
-
-  next if Lunch.where(year: previous_year, month: month).exists?
-
-  MysteryPartnerSelectionService.call year: previous_year, month: month
+(1..12).each do |month|
+  create_lunch previous_year, month
 end
+
+create_lunch Time.now.year, Time.now.month

@@ -46,3 +46,28 @@ RSpec::Matchers.define :contain_table do |expected|
 
   diffable
 end
+
+RSpec::Matchers.define :contain_cards_with do |expected|
+  match do |page|
+    @actual = expected.map { |card_data| card_texts(page, card_data[:identifier]) }
+
+    return false unless @actual.size == expected.size
+
+    expected.all? do |card_data|
+      actual_card_texts = card_texts(page, card_data[:identifier])
+      actual_card_texts.present? && card_data[:data].all? { |expected_text| actual_cards_contains?(actual_card_texts, expected_text) }
+    end
+  end
+
+  def actual_cards_contains?(actual_card_texts, expected_text)
+    actual_card_texts.any? { |text| text.include?(expected_text) }
+  end
+
+  def card_texts(page, identifier)
+    document = Nokogiri::HTML(page.body)
+    cards = document.css(".card .#{identifier} .card-body")
+    cards&.map(&:text).presence
+  end
+
+  diffable
+end

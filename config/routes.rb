@@ -5,4 +5,5 @@ Rails.application.routes.draw do
   # root "articles#index"
 
   resources :employees
+  resources :lunches, only: %i[index show]
 end
