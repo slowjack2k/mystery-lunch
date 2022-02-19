@@ -1,6 +1,10 @@
 version: "3.9"
 
 services:
+  db:
+    volumes:
+      - ../data/mysql:/var/lib/mysql:delegated
+      - ../data/histfiles:/root/histfiles:cached
   web:
     environment:
       HOST: 0.0.0.0
