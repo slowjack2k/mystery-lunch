@@ -66,3 +66,8 @@ Moved from features to the "new" system tests in order to have transactional tes
 
 array shuffle, ruby uses Fisher-Yates shuffle so it's a good thing
 
+
+
+good [old crontab](https://github.com/javan/whenever) is good enough to create new lunches
+
+`bundle exec whenever --update-crontab --set environment='<RAILS_ENV>'`

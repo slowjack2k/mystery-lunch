@@ -3,7 +3,7 @@ class MysteryPartnerSelectionService
     new(**args).call
   end
 
-  def initialize(year:, month:)
+  def initialize(year: Time.now.year, month: Time.now.month)
     @year = year
     @month = month
   end
