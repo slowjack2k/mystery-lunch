@@ -96,7 +96,7 @@ RSpec.feature "Manage employees", type: :system do
 
       # wait that deletion is complete
       expect(page).to have_text "Employees"
-    end.to change { Employee.count }.by(-1)
+    end.to change { Employee.where.not(deleted_at: nil).count }.by(1)
   end
 
   scenario "show all employees" do
