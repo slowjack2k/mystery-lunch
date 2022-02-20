@@ -26,4 +26,21 @@ RSpec.describe Lunch do
 
     expect(lunch.pairs("development").keys).to eq ["group-1", "group-2"]
   end
+
+  it "changes the lunch group of an existing participation" do
+    lunch = create :lunch
+
+    create_participants lunch, "group-1", %w[development HR]
+
+    example_participation = Participant.all.sample
+
+    create_participants lunch, "group-2", %w[development data]
+
+    expect do
+      lunch.add_to_different_lunchgroup(example_participation)
+    end.to change {
+             example_participation.reload
+             example_participation.lunch_group
+           }.from("group-1").to("group-2")
+  end
 end

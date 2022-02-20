@@ -38,7 +38,7 @@ class EmployeesController < ApplicationController
   def destroy
     # :see_other http://www.railsstatuscodes.com/see_other.html
     # without specs don't work
-    if current_employee.soft_destroy
+    if DestroyEmployeeService.call employee: current_employee
       redirect_to employees_path, status: :see_other, flash: {notice: "Employee was deleted"}
     else
       redirect_to employees_path, status: :see_other, flash: {error: "Employee could not be deleted"}
