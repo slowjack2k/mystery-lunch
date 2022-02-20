@@ -22,7 +22,7 @@ class DestroyEmployeeService < ApplicationService
 
     peers = employee.current_participation.peers
     if peers.size == 1
-      Lunch.current_lunch.add_to_different_lunchgroup(peers.first)
+      Lunch.current_lunch.add_to_different_lunch_group(peers.first)
     end
   end
 
