@@ -13,7 +13,7 @@ RSpec.feature "display current lunch", type: :system do
     lunch = create :lunch
     expected_result = create_participants_for(lunch, "group-1") + create_participants_for(lunch, "group-2")
 
-    visit lunches_path
+    visit root_path
 
     expect(page).to have_text "Lunch 1 / 2022"
 
