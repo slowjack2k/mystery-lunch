@@ -10,9 +10,9 @@ class EmployeesController < ApplicationController
   end
 
   def create
-    @employee = Employee.new employee_params
+    @employee = CreateEmployeeService.call params: employee_params
 
-    if @employee.save
+    if @employee.valid?
       redirect_to employee_path(current_employee), flash: {notice: "Employee '#{@employee.name}' created."}
     else
       render :new, flash: {error: "Employee #{@employee.name}' not created."}
