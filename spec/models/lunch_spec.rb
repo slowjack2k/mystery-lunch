@@ -37,7 +37,7 @@ RSpec.describe Lunch do
     create_participants lunch, "group-2", %w[development data]
 
     expect do
-      lunch.add_to_different_lunchgroup(example_participation)
+      lunch.add_to_different_lunch_group(example_participation)
     end.to change {
              example_participation.reload
              example_participation.lunch_group
