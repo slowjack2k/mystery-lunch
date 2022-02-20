@@ -55,4 +55,19 @@ RSpec.describe MysteryPartnerSelectionService do
       MysteryPartnerSelectionService.call year: 1, month: 1
     end.to change { Participant.count }.by 26
   end
+
+  it "gives up after retries did run out" do
+    create(:employee)
+
+    departments = double(Departments)
+    allow(departments).to receive(:pairings).and_raise(Departments::IllegalCombinationError)
+    allow(departments).to receive(:cnt_employees).and_return 0
+
+    service = MysteryPartnerSelectionService.new(year: 1, month: 1)
+    allow(service).to receive(:departments).and_return(departments)
+
+    expect do
+      service.call
+    end.to raise_error Departments::IllegalCombinationError
+  end
 end
