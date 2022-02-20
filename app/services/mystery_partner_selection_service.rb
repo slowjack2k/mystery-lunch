@@ -59,7 +59,11 @@ class MysteryPartnerSelectionService < ApplicationService
     begin
       block.call
     rescue exception
-      retry if (@retries += 1) < cnt
+      if (@retries += 1) < cnt
+        retry
+      else
+        raise
+      end
     end
   end
 
