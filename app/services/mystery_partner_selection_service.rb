@@ -1,8 +1,4 @@
-class MysteryPartnerSelectionService
-  def self.call(**args)
-    new(**args).call
-  end
-
+class MysteryPartnerSelectionService < ApplicationService
   def initialize(year: Time.now.year, month: Time.now.month)
     @year = year
     @month = month
@@ -67,19 +63,12 @@ class MysteryPartnerSelectionService
     end
   end
 
-  def instrument(event, &block)
-    ActiveSupport::Notifications.instrument "#{event}.service" do |payload|
-      payload[:count] = departments.cnt_employees
+  def before_instrument(payload)
+    payload[:count] = departments.cnt_employees
+  end
 
-      result = nil
-
-      runtime = Benchmark.ms { result = block.call }
-
-      payload[:runtime] = runtime
-      payload[:retries] = @retries
-
-      result
-    end
+  def after_instrument(payload)
+    payload[:retries] = @retries
   end
 
   attr_reader :year, :month

@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe MysteryPartnerSelectionService, type: :model do
+RSpec.describe MysteryPartnerSelectionService do
   def create_departments
     cnt_employees = [4, 1, 3, 3, 4, 3, 1, 4, 4].shuffle
 
