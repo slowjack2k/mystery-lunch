@@ -30,4 +30,11 @@ RSpec.describe Employee do
       expect(employee.deleted?).to be_falsey
     end
   end
+
+  it "returns the participation for the current lunch" do
+    lunch = create :lunch, :with_participants
+    employee = Employee.first
+
+    expect(employee.current_participation.lunch).to eq lunch
+  end
 end

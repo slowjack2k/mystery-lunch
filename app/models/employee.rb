@@ -1,7 +1,11 @@
 class Employee < ApplicationRecord
   DEPARTMENTS = %w[operations sales marketing risk management finance HR development data].freeze
 
-  has_many :participations, -> { joins(:lunch).order(year: :desc, month: :desc).limit(3) }, class_name: "Participant", foreign_key: :employee_id
+  has_many :participations, -> { joins(:lunch).order(year: :desc, month: :desc).limit(3) }, class_name: "Participant", foreign_key: :employee_id do
+    def current_lunch
+      where(lunch: Lunch.current_lunch)
+    end
+  end
   has_one_attached :photo do |attachable|
     attachable.variant :thumb, resize_to_limit: [100, 100]
   end
@@ -34,6 +38,10 @@ class Employee < ApplicationRecord
 
   def deleted?
     deleted_at.present?
+  end
+
+  def current_participation
+    participations.current_lunch.first
   end
 
   def previous_partners
