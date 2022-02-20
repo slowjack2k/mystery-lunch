@@ -37,7 +37,7 @@ class MysteryPartnerSelectionService
   end
 
   def build_participants(lunch, employees)
-    lunch_group = FFaker::HipsterIpsum.sentence(10) + employees.map(&:id).join(" - ")
+    lunch_group = FFaker::HipsterIpsum.sentence(5) + employees.map(&:id).join(" - ")
 
     employees.each do |employee|
       lunch.participants.build lunch_group: lunch_group,
