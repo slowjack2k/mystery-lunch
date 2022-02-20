@@ -28,7 +28,7 @@ RSpec.describe DestroyEmployeeService do
   end
 
   it "for odd count employees it removes only the deleted employee" do
-    create_employees(5)
+    create_employees(3)
 
     MysteryPartnerSelectionService.call year: 1, month: 1
 
