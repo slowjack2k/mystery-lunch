@@ -1,8 +1,10 @@
 <% content_for :head do %>
-  <%=  link_to_if @current_department.present? ,"All", lunch_path(@lunch_id), class: "ms-1 me-1" %>
+  <%=  link_to_if @previous_lunch_id.present? ,"Previous Lunch", lunch_path(@previous_lunch_id || -1), class: "ms-1 me-1" %> |
+  <%=  link_to_if @next_lunch_id.present? ,"Next Lunch", lunch_path(@next_lunch_id || -1), class: "ms-1 me-1" %> |
+  <%=  link_to_if @current_department.present? ,"All", lunch_path(@current_lunch_id), class: "ms-1 me-1" %>
 
   <%- Employee::DEPARTMENTS.each do |department| -%>
-    | <%=  link_to_unless_current department.capitalize, lunch_path(@lunch_id, department: department), class: "ms-1 me-1" %>
+    | <%=  link_to_unless_current department.capitalize, lunch_path(@current_lunch_id, department: department), class: "ms-1 me-1" %>
   <%- end -%>
 <% end %>
 
