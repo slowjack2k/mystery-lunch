@@ -17,6 +17,11 @@ start app
 
 ```bash
 > ./bin/setup
+
+# at the first time
+# seeding photos is slow, so you decide SEED_AVATARS true/false
+> SEED_AVATARS=true ./bin/rails db:seed
+ 
 > ./bin/dev
 ```
 

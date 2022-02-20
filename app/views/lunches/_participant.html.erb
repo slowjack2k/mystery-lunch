@@ -1,0 +1,16 @@
+<div class="col">
+  <div class="card rounded border-secondary mb-3 participant participant-<%=participant.id %>">
+    <div class="card-header bg-secondary header-spacer">
+
+    </div>
+
+    <div class="card-body">
+      <div class="text-center mb-3">
+        <% # url_for => permanent url  %>
+        <%= image_tag url_for(participant.photo.variant(:thumb)), class: %w[rounded-circle bg-secondary bg-gradient img-thumbnail] if participant.photo.attached? %>
+      </div>
+      <p class="text-center mb-3"><b><%= participant.name %></b></p>
+      <p class="text-center mb-3"><b><i><%= participant.department %></i></b></p>
+    </div>
+  </div>
+</div>

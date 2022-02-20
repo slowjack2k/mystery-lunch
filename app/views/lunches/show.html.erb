@@ -1,0 +1,12 @@
+<h2>Lunch <%= @title %></h2>
+
+<%- @pairs.each_pair do |lunch_group, pair| -%>
+  <div class="card mb-3">
+    <div class="card-header">Group: <%= lunch_group %></div>
+    <div class="card-body">
+      <div class="row">
+        <%= render partial: "participant", collection: pair %>
+      </div>
+    </div>
+  </div>
+<%- end -%>
