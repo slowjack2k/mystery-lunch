@@ -49,7 +49,7 @@ end
 
 RSpec::Matchers.define :contain_cards_with do |expected|
   match do |page|
-    @actual = expected.map { |card_data| card_texts(page, card_data[:identifier]) }
+    @actual = expected.map { |card_data| card_texts(page, card_data[:identifier]) }.compact
 
     return false unless @actual.size == expected.size
 

@@ -10,6 +10,10 @@ class Employee < ApplicationRecord
 
   define_model_callbacks :soft_destroy
 
+  def self.valid_department?(department)
+    department.in? DEPARTMENTS
+  end
+
   def self.employees_by_department
     res = Employee::DEPARTMENTS.each_with_object({}) { |department, res| res[department] = [] }
 
