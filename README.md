@@ -116,14 +116,14 @@ good [old crontab](https://github.com/javan/whenever) is good enough to create n
 
 `bundle exec whenever --update-crontab --set environment='<RAILS_ENV>'`
 
-`department` is modelled as string an enums. At the moment I see not enough advantages for enum.
+`department` is modelled as string and not as enums. At the moment I see not enough advantages for enum.
 A string is easier to understand, when you look into the db directly. Further down the road it should
 become a model of its own.
 
 Service objects instead of callbacks in order to be more explicit, for this simple app 
 the logic could have been placed within the models.
 
-No query objects at the moment, too simple queries. Tried to places all query logic into the models.
+No query objects at the moment, too simple queries. Tried to place all query logic into the models.
 
 `lunch_group` should maybe have been a model of it's own. Until now it's good enough
 as string.
