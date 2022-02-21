@@ -69,6 +69,12 @@ If you want to use a single port & traefik, you have to ensure, that all *.local
 Some DNS-Server/Router/OS settings prevent this because of DNS rebind protection. You can try to add *.localtest.me to
 the exceptions or use /etc/hosts.
 
+traefik uses the docker socket to get the needed informations from the label 
+data of a container. so when you are not using osx, chances are you need to tweak
+the traefik volumne mount `- /var/run/docker.sock:/var/run/docker.sock` in
+order to get it up & running.
+
+
 | Action            | traefik url                                  | plain url                       | credentials                                                  | 
 |-------------------|----------------------------------------------|---------------------------------|--------------------------------------------------------------|
 | Overview          | http://rails.localtest.me:9080/              | http://localhost:3000/          |                                                              |
