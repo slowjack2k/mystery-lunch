@@ -20,12 +20,12 @@ Make shure mysql is installed and credentials are provided with in the appropria
 Default configs are provided.
 
 ```bash
-> ./bin/setup
-> RAILS_ENV=test bundle exec bin/rails db:create # sometimes need, draw back of current .env config
 # at the first time
 # seeding photos is slow, so you decide SEED_AVATARS true/false
-> SEED_AVATARS=true ./bin/rails db:seed
- 
+# don't send emails during seeding dev env
+> SEED_AVATARS=true MAILHOG="" ./bin/setup
+> RAILS_ENV=test bundle exec bin/rails db:create # sometimes need, draw back of current .env config
+
 > ./bin/dev
 ```
 
@@ -36,9 +36,8 @@ First run:
 ```
 >  ./bin/dc-dev build web # just to seed it first handed
 > ./bin/dc-dev up
-> ./bin/dc-dev exec web ./bin/setup
+> ./bin/dc-dev exec web -e SEED_AVATARS=true -e MAILHOG="" ./bin/setup # SEED_AVATARS depends on your wishes
 > ./bin/dc-dev exec web -e RAILS_ENV=test ./bin/rails db:create
-> ./bin/dc-dev exec -e SEED_AVATARS=true web ./bin/rails db:seed # SEED_AVATARS depends on your wishes
 > ./bin/dc-dev exec web bin/docker-dev
 ```
 
