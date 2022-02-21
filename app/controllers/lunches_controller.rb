@@ -4,7 +4,7 @@ class LunchesController < ApplicationController
   end
 
   def show
-    lunch = Lunch.includes(participants: :employee).find(params[:id])
+    lunch = Lunch.for_show(params[:id])
     @current_department = Employee.valid_department?(params[:department]) ? params[:department] : nil
     @current_lunch_id = lunch.id
     @previous_lunch_id = lunch.previous_lunch&.id

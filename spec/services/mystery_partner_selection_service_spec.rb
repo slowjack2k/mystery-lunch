@@ -43,7 +43,7 @@ RSpec.describe MysteryPartnerSelectionService do
 
     expect do
       MysteryPartnerSelectionService.call year: 1, month: 1
-    end.to change { Participant.count }.by 27
+    end.to change { Participant.count }.by Employee.count
   end
 
   it "ignores soft deleted employees" do
@@ -53,7 +53,7 @@ RSpec.describe MysteryPartnerSelectionService do
 
     expect do
       MysteryPartnerSelectionService.call year: 1, month: 1
-    end.to change { Participant.count }.by 26
+    end.to change { Participant.count }.by(Employee.count - 1)
   end
 
   it "gives up after retries did run out" do
