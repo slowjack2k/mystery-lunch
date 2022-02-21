@@ -2,16 +2,15 @@
 
 ## Dev
 
-Requirements 
+Requirements
 
 * ruby 2.7.5
 * bundler
 * nodejs
-* yarn 
+* yarn
 * npm
 * mysql
 * optional docker
-
 
 start app
 
@@ -56,22 +55,36 @@ DB-Admin: http://localhost:9090/
 or
 
 ~/.bundle/config
+
 ```yaml
 ---
 BUNDLE_BUILD__MYSQL2: "--with-mysql-dir=/usr/local/opt/mysql-client"
 ```
 
+## URLS
+
+If you want to use a single port & traefik, you have to ensure, that all *.localtest.me DNS entries resolve to
+127.0.0.1.
+
+Some DNS-Server/Router/OS settings prevent this because of DNS rebind protection. You can try to add *.localtest.me to
+the exceptions or use /etc/hosts.
+
+| Action            | traefik url                                  | plain url                       | credentials                                                  | 
+|-------------------|----------------------------------------------|---------------------------------|--------------------------------------------------------------|
+| Overview          | http://rails.localtest.me:9080/              | http://localhost:3000/          |                                                              |
+| Admin employess   | http://rails.localtest.me:9080/employees     | http://localhost:3000/employees | user/password (can be changed vie .evn files)                |
+| DB-admin          | http://adminer.localtest.me:9080/            | http://localhost:9090           | root/password (can be changed via docker-compose.yml)        |
+| traefik dashboard | https://proxy.localtest.me:9083/dashboard/#/ | -                               | admin/admin (can be changed via docker-compose.rubymine.yml) |
+
 ## Decissions
 
-Be verbose within tests in order to get a better documentation.
-Agains let & co, Prevent [mystery guests](https://thoughtbot.com/blog/mystery-guest).
+Be verbose within tests in order to get a better documentation. Agains let & co,
+Prevent [mystery guests](https://thoughtbot.com/blog/mystery-guest).
 
-
-Moved from features to the "new" system tests in order to have transactional tests during tests within chromium still available.
+Moved from features to the "new" system tests in order to have transactional tests during tests within chromium still
+available.
 
 array shuffle, ruby uses Fisher-Yates shuffle so it's a good thing
-
-
 
 good [old crontab](https://github.com/javan/whenever) is good enough to create new lunches
 
