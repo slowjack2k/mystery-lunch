@@ -49,8 +49,8 @@ class Employee < ApplicationRecord
   end
 
   def previous_partners
-    @previous_partners ||= participations.map do |participantion|
-      Participant.includes(:employee).where(lunch_group: participantion.lunch_group, lunch: participantion.lunch).where.not(employee: self).map(&:employee)
+    @previous_partners ||= participations.map do |participation|
+      participation.other_participiants_in_group.map(&:employee)
     end.flatten
   end
 end
