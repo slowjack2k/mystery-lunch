@@ -33,5 +33,7 @@ module MysteryLunch
     #
     # Use Vips for processing variants. slightly better security than imagemagic
     config.active_storage.variant_processor = :vips
+
+    config.no_reply_from_email = "no-reply@example.com"
   end
 end
