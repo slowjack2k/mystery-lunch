@@ -56,7 +56,7 @@ class EmployeesController < ApplicationController
   end
 
   def current_employee
-    @employee ||= Employee.where(deleted_at: nil).find(params[:id])
+    @employee ||= Employee.existing(params[:id])
   end
 
   helper_method :current_employee

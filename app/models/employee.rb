@@ -28,6 +28,10 @@ class Employee < ApplicationRecord
     end
   end
 
+  def self.existing(id)
+    Employee.where(deleted_at: nil).find(id)
+  end
+
   def soft_destroy
     return unless deleted_at.blank?
 

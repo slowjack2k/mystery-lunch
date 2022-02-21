@@ -7,6 +7,10 @@ class Lunch < ApplicationRecord
     order_by_take_place.first
   end
 
+  def self.for_show(id)
+    Lunch.includes(participants: :employee).find(id)
+  end
+
   def previous_lunch
     self.class.order_by_take_place.where("year < :current_year OR (year = :current_year AND month < :current_month)", {current_year: year, current_month: month}).first
   end
