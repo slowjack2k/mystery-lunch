@@ -1,7 +1,9 @@
 require "rails_helper"
 RSpec.describe Departments do
   def create_departments(cnt_employees = [4, 1, 3, 3, 4, 3, 1, 4, 4])
-    cnt_employees = cnt_employees.shuffle
+    cnt_employees = cnt_employees.shuffle # a lot of randomness involved, so randomize the spec too, in order to catch forgotten edge cases within the ci runs
+
+    raise "Department missmatch" if Employee::DEPARTMENTS.size != cnt_employees.size
 
     Employee::DEPARTMENTS.each_with_index.each_with_object({}) do |(department, index), res|
       employees = create_list(:employee, cnt_employees[index], department: department)
