@@ -75,12 +75,13 @@ the traefik volumne mount `- /var/run/docker.sock:/var/run/docker.sock` in
 order to get it up & running.
 
 
-| Action            | traefik url                                  | plain url                       | credentials                                                  | 
-|-------------------|----------------------------------------------|---------------------------------|--------------------------------------------------------------|
-| Overview          | http://rails.localtest.me:9080/              | http://localhost:3000/          |                                                              |
-| Admin employess   | http://rails.localtest.me:9080/employees     | http://localhost:3000/employees | user/password (can be changed vie .evn files)                |
-| DB-admin          | http://adminer.localtest.me:9080/            | http://localhost:9090           | root/password (can be changed via docker-compose.yml)        |
-| traefik dashboard | https://proxy.localtest.me:9083/dashboard/#/ | -                               | admin/admin (can be changed via docker-compose.rubymine.yml) |
+| Action              | traefik url                                  | plain url                       | credentials                                                  | 
+|---------------------|----------------------------------------------|---------------------------------|--------------------------------------------------------------|
+| Overview            | http://rails.localtest.me:9080/              | http://localhost:3000/          |                                                              |
+| Admin employess     | http://rails.localtest.me:9080/employees     | http://localhost:3000/employees | user/password (can be changed vie .evn files)                |
+| DB-admin            | http://adminer.localtest.me:9080/            | http://localhost:9090           | root/password (can be changed via docker-compose.yml)        |
+| traefik dashboard   | https://proxy.localtest.me:9083/dashboard/#/ | -                               | admin/admin (can be changed via docker-compose.rubymine.yml) |
+| catch all webmailer | http://mailhog.localtest.me:9080/            | http://localhost:8025           |                                                              |
 
 ## Decissions
 
