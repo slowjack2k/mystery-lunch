@@ -46,6 +46,14 @@ RSpec.describe MysteryPartnerSelectionService do
     end.to change { Participant.count }.by Employee.count
   end
 
+  it "sends an email to all participants" do
+    create_departments
+
+    expect do
+      MysteryPartnerSelectionService.call year: 1, month: 1
+    end.to change { ActionMailer::Base.deliveries.count }.by(Employee.count)
+  end
+
   it "ignores soft deleted employees" do
     create_departments
 

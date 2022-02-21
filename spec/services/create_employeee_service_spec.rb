@@ -1,10 +1,6 @@
 require "rails_helper"
 
 RSpec.describe CreateEmployeeService do
-  def create_employees(cnt = 6)
-    cnt.times { |i| create(:employee, name: "name-#{i + 1}", department: "development") }
-  end
-
   it "creates a new employee" do
     params = attributes_for :employee
     expect do
@@ -19,5 +15,14 @@ RSpec.describe CreateEmployeeService do
     expect do
       CreateEmployeeService.call params: params
     end.to change { Participant.count }.by 1
+  end
+
+  it "sends an email to all participants" do
+    create :lunch, :with_participants
+
+    params = attributes_for :employee
+    expect do
+      CreateEmployeeService.call params: params
+    end.to change { ActionMailer::Base.deliveries.count }
   end
 end
