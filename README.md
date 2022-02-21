@@ -26,6 +26,15 @@ start app
 
 ## Docker
 
+first run:
+```
+>  ./bin/dc-dev build web # just to seed it first handed
+> ./bin/dc-dev up
+> ./bin/dc-dev exec web ./bin/setup
+> ./bin/dc-dev exec -e SEED_AVATARS=true web ./bin/rails db:seed # SEED_AVATARS depends on your wishes
+> ./bin/dc-dev exec web bin/docker-dev
+```
+
 ```bash
 # create env / start existing one
 > ./bin/dc-dev up
@@ -75,13 +84,14 @@ the traefik volumne mount `- /var/run/docker.sock:/var/run/docker.sock` in
 order to get it up & running.
 
 
-| Action              | traefik url                                  | plain url                       | credentials                                                  | 
-|---------------------|----------------------------------------------|---------------------------------|--------------------------------------------------------------|
-| Overview            | http://rails.localtest.me:9080/              | http://localhost:3000/          |                                                              |
-| Admin employess     | http://rails.localtest.me:9080/employees     | http://localhost:3000/employees | user/password (can be changed vie .evn files)                |
-| DB-admin            | http://adminer.localtest.me:9080/            | http://localhost:9090           | root/password (can be changed via docker-compose.yml)        |
-| traefik dashboard   | https://proxy.localtest.me:9083/dashboard/#/ | -                               | admin/admin (can be changed via docker-compose.rubymine.yml) |
-| catch all webmailer | http://mailhog.localtest.me:9080/            | http://localhost:8025           |                                                              |
+| Action              | traefik url                                                       | plain url                                                | credentials                                                  | 
+|---------------------|-------------------------------------------------------------------|----------------------------------------------------------|--------------------------------------------------------------|
+| Overview            | http://rails.localtest.me:9080/                                   | http://localhost:3000/                                   |                                                              |
+| Admin employess     | http://rails.localtest.me:9080/employees                          | http://localhost:3000/employees                          | user/password (can be changed vie .evn files)                |
+| Email preview       | http://rails.localtest.me:9080/rails/mailers/participation_mailer | http://localhost:3000/rails/mailers/participation_mailer | -                                                            |
+| DB-admin            | http://adminer.localtest.me:9080/                                 | http://localhost:9090                                    | root/password (can be changed via docker-compose.yml)        |
+| traefik dashboard   | https://proxy.localtest.me:9083/dashboard/#/                      | -                                                        | admin/admin (can be changed via docker-compose.rubymine.yml) |
+| catch all webmailer | http://mailhog.localtest.me:9080/                                 | http://localhost:8025                                    |                                                              |
 
 ## Decissions
 
