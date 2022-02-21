@@ -48,7 +48,7 @@ class EmployeesController < ApplicationController
   private
 
   def employee_params
-    params.require(:employee).permit(:name, :department, :photo).tap do |p|
+    params.require(:employee).permit(:name, :department, :photo, :email).tap do |p|
       p.keys.map(&:to_sym).excluding(:photo).each do |key|
         p[key] = ActionController::Base.helpers.sanitize p[key]
       end
