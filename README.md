@@ -29,7 +29,7 @@ Default configs are provided.
 > ./bin/dev
 ```
 
-### Start app with docker ()
+### Start app with docker
 
 First run:
 
