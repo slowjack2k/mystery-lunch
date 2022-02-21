@@ -128,3 +128,6 @@ No query objects at the moment, too simple queries. Tried to place all query log
 as string.
 
 Basic auth, it's good enough at the moment, but a little bit hard to use within tests.
+
+Prefer simple `deleted_at` attribute over gems like `Paranoia`, to many not needed functionality.
+
