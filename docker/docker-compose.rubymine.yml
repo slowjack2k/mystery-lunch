@@ -1,6 +1,21 @@
 version: "3.9"
 
+#networks:
+#  proxy:
+#    name: "proxy"
+
 services:
+  adminer:
+    #networks:
+    #  - default
+    #  - proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.adminer.service=adminer"
+      - "traefik.http.routers.adminer.rule=Host(`adminer.localtest.me`)"
+      - "traefik.http.routers.adminer.entrypoints=web"
+      - "traefik.http.services.adminer.loadbalancer.server.port=8080"
+
   db:
     volumes:
       - ../data/mysql:/var/lib/mysql:delegated
@@ -13,3 +28,47 @@ services:
       # for puma in rubymine disable "Debugger" => "Attach to subprocess automaticaly"
       - "127.0.0.1:1234:1234"
       - "127.0.0.1:26166:26168"
+    #networks:
+    #  - default
+    #  - proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.rails.service=rails"
+      - "traefik.http.routers.rails.rule=Host(`rails.localtest.me`)"
+      - "traefik.http.routers.rails.entrypoints=web"
+      - "traefik.http.services.rails.loadbalancer.server.port=3000"
+
+  reverse-proxy:
+    image: traefik:v2.6
+    command:
+      #- "--providers.docker.network=proxy"
+      #- "--api.insecure=true"
+      - "--api"
+      - "--api.dashboard=true"
+      - "--accesslog=true"
+      #- "--tracing=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.web-secured.address=:443"
+      #- "--entrypoints.traefik.address=:8080"
+      #- '--log=true'
+      - "--log.level=${TRAEFIK_LOG_LEVEL-INFO}"
+    ports:
+      # The HTTP port
+      - "${TRAEFIK_EXT_HTTP_PORT-9080}:80"
+      - "${TRAEFIK_EXT_HTTPS_PORT-9083}:443"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.api.entrypoints=web-secured"
+      - "traefik.http.routers.api.tls=true"
+      - "traefik.http.routers.api.rule=Host(`proxy.localtest.me`) && (PathPrefix(`/api/`) || PathPrefix(`/dashboard/`))"
+      - "traefik.http.routers.api.service=api@internal"
+      - "traefik.http.routers.api.middlewares=auth"
+      - "traefik.http.middlewares.auth.basicauth.users=${TRAEFIK_ADMIN_CREDS-admin:$$apr1$$sPGZMz2Z$$RkYE0FoYzrFD599h7fx/r1}"
+    volumes:
+      # So that Traefik can listen to the Docker events
+      - /var/run/docker.sock:/var/run/docker.sock
+      #- ./traefik.toml:/traefik.toml:ro
+    #networks:
+    #  - proxy
