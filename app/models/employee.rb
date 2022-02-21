@@ -11,6 +11,7 @@ class Employee < ApplicationRecord
   end
 
   validates_inclusion_of :department, in: DEPARTMENTS
+  validates :email, format: {with: URI::MailTo::EMAIL_REGEXP}
 
   define_model_callbacks :soft_destroy
 
