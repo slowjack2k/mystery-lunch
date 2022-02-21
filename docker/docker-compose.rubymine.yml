@@ -5,6 +5,20 @@ version: "3.9"
 #    name: "proxy"
 
 services:
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    logging:
+      driver: none
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mailhog.service=mailhog"
+      - "traefik.http.routers.mailhog.rule=Host(`mailhog.localtest.me`)"
+      - "traefik.http.routers.mailhog.entrypoints=web"
+      - "traefik.http.services.mailhog.loadbalancer.server.port=8025"
+
   adminer:
     #networks:
     #  - default
@@ -23,6 +37,7 @@ services:
   web:
     environment:
       HOST: 0.0.0.0
+      MAILHOG: mailhog
     ports:
       # debugger port rubymine
       # for puma in rubymine disable "Debugger" => "Attach to subprocess automaticaly"

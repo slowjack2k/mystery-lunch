@@ -29,6 +29,8 @@ class MysteryPartnerSelectionService < ApplicationService
       end
 
       bulk_insert_participants(lunch.participants)
+
+      email_participants(lunch.participants)
     end
   end
 
@@ -41,6 +43,10 @@ class MysteryPartnerSelectionService < ApplicationService
         created_at: lunch.created_at,
         updated_at: lunch.updated_at
     end
+  end
+
+  def email_participants(participations)
+    ParticipationEmailService.call participations: participations
   end
 
   def bulk_insert_participants(participants)

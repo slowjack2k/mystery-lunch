@@ -6,6 +6,10 @@
         <%= form.text_field :name, { class: "form-control", placeholder: "Employee name" } %>
       </div>
       <div class="mb-3">
+        <%= form.label :email, {class: "form-label"} %>
+        <%= form.text_field :email, { class: "form-control", placeholder: "Employee email" } %>
+      </div>
+      <div class="mb-3">
         <%= form.label :department, {class: "form-label"} %>
         <%= form.select :department, Employee::DEPARTMENTS, { class: "form-select" } %>
       </div>

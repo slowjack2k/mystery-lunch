@@ -27,6 +27,18 @@ RSpec.describe DestroyEmployeeService do
     end.to change { Participant.where(lunch_group: current_group).where.not(employee: current_employee).count }.from(1).to(0)
   end
 
+  it "sends an email to all participants" do
+    create_employees
+
+    MysteryPartnerSelectionService.call year: 1, month: 1
+
+    current_employee = Employee.all.sample
+
+    expect do
+      DestroyEmployeeService.call(employee: current_employee)
+    end.to change { ActionMailer::Base.deliveries.count }.by(3)
+  end
+
   it "for odd count employees it removes only the deleted employee" do
     create_employees(3)
 

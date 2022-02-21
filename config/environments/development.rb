@@ -39,6 +39,15 @@ Rails.application.configure do
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
 
+  if ENV["MAILHOG"]
+    config.action_mailer.delivery_method = :smtp
+    config.action_mailer.smtp_settings = {
+      port: 1025,
+      address: ENV["MAILHOG"],
+      domain: "mailhog"
+    }
+  end
+
   config.action_mailer.perform_caching = false
 
   # Print deprecation notices to the Rails logger.

@@ -4,6 +4,7 @@ FactoryBot.define do
   factory :employee do
     name { "#{FFaker::Name.first_name} #{FFaker::Name.last_name}" }
     department { "development" }
+    email { FFaker::Internet.email }
   end
 
   factory :participant do

@@ -39,6 +39,7 @@ RSpec.feature "Manage employees", type: :system do
     visit new_employee_path
 
     fill_in "Name", with: employee_attrs[:name]
+    fill_in "Email", with: employee_attrs[:email]
     select employee_attrs[:department], from: "Department"
     attach_file("Photo", Rails.root + "spec/fixtures/user.png")
 
@@ -54,7 +55,7 @@ RSpec.feature "Manage employees", type: :system do
     login(username, password)
     visit employee_path(employee)
 
-    expect(page).to have_text("Name:").and have_text(employee.name)
+    expect(page).to have_text("Name:").and have_text(employee.name).and have_text(employee.email)
   end
 
   scenario "edit an employee" do
@@ -68,6 +69,7 @@ RSpec.feature "Manage employees", type: :system do
       selected: employee.department)
 
     fill_in "Name", with: new_employee_attrs[:name]
+    fill_in "Email", with: new_employee_attrs[:email]
     select new_employee_attrs[:department], from: "Department"
     attach_file("Photo", Rails.root + "spec/fixtures/user.png")
 

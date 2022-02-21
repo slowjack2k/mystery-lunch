@@ -29,7 +29,8 @@ Employee::DEPARTMENTS.each do |department|
   Employee.transaction do
     10.times do |i|
       employee = Employee.create! name: "#{FFaker::Name.first_name} #{FFaker::Name.last_name}",
-        department: department
+        department: department,
+        email: FFaker::Internet.email
 
       if seed_avatars
         employee.photo.attach({

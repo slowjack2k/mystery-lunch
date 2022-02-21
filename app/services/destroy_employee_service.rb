@@ -22,8 +22,18 @@ class DestroyEmployeeService < ApplicationService
 
     peers = employee.current_participation.peers
     if peers.size == 1
-      Lunch.current_lunch.add_to_different_lunch_group(peers.first)
+      participant = peers.first
+      Lunch.current_lunch.add_to_different_lunch_group(participant)
+      participant.reload
+
+      participants = [participant] + participant.peers
+
+      email_participants participants
     end
+  end
+
+  def email_participants(participations)
+    ParticipationEmailService.call participations: participations
   end
 
   attr_reader :employee
