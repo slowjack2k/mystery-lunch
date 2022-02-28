@@ -120,7 +120,7 @@ GEM
     io-wait (0.2.1)
     irb (1.4.1)
       reline (>= 0.3.0)
-    jsbundling-rails (1.0.1)
+    jsbundling-rails (1.0.2)
       railties (>= 6.0.0)
     loofah (2.14.0)
       crass (~> 1.0.2)
