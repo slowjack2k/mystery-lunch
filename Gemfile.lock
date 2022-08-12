@@ -86,7 +86,7 @@ GEM
     chronic (0.10.2)
     concurrent-ruby (1.1.10)
     crass (1.0.6)
-    cssbundling-rails (1.1.0)
+    cssbundling-rails (1.1.1)
       railties (>= 6.0.0)
     debase (0.2.4.1)
       debase-ruby_core_source (>= 0.10.2)
