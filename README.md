@@ -36,8 +36,8 @@ First run:
 ```
 >  ./bin/dc-dev build web # just to seed it first handed
 > ./bin/dc-dev up
-> ./bin/dc-dev exec web -e SEED_AVATARS=true -e MAILHOG="" ./bin/setup # SEED_AVATARS depends on your wishes
-> ./bin/dc-dev exec web -e RAILS_ENV=test ./bin/rails db:create
+> ./bin/dc-dev exec -e SEED_AVATARS=true -e MAILHOG="" web ./bin/setup # SEED_AVATARS depends on your wishes
+> ./bin/dc-dev exec -e RAILS_ENV=test web ./bin/rails db:create
 > ./bin/dc-dev exec web bin/docker-dev
 ```
 
